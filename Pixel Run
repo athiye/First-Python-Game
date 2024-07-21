@@ -5,5 +5,22 @@ pygame.init()
 screen = pygame.display.set_mode((800, 400))
 pygame.display.set_caption('First Python Game')
 # set FPS ceiling
+
 clock = pygame.time.Clock()
-test_font = pygame.font.font('Pixeltype.ttf', 50)
+test_font = pygame.font.Font('Pixeltype.ttf', 50)
+
+game_active = False
+
+# Create the surfaces
+sky_surface = pygame.image.load('Sky.png').convert_alpha()
+ground_surface = pygame.image.load('Ground.png').convert_alpha()
+
+last_time = 0
+
+
+snail = pygame.image.load('snail2.png').convert_alpha()
+snail_rect = snail.get_rect(midbottom = (800, 300))
+
+player = pygame.image.load('player_walk_1.png').convert_alpha()
+player_rect = player.get_rect(midbottom = (80,300))
+player_gravity=0
