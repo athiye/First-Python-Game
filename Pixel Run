@@ -1,5 +1,9 @@
-print('hello')
+import pygame
 
-
-
-
+# start module
+pygame.init()
+screen = pygame.display.set_mode((800, 400))
+pygame.display.set_caption('First Python Game')
+# set FPS ceiling
+clock = pygame.time.Clock()
+test_font = pygame.font.font('Pixeltype.ttf', 50)
