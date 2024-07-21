@@ -53,7 +53,19 @@ while True:
 
   if game_active:
     # here, place the surfaces and check whether the player hit an obstacle
+    screen.blit(sky_surface, (0,0))
+    screen.blit(ground_surface, (0, 300))
+    screen.blit(snail, snail_rect)
+    screen.blit(player, player_rect)
+    score = display_score(last_time)
+    # move the obstacle
+    snail_rect.x -= 4
+    if snail_rect.right <= -10:
+      snail_rect.left = 800
 
+    # if player hits obstacle
+    if snail_rect.colliderect(player_rect):
+      game_active = False
   else:
     # this is the start game screen, store the last score and highest score
     screen.fill((94, 129, 162))
