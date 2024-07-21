@@ -56,8 +56,25 @@ while True:
 
   else:
     # this is the start game screen, store the last score and highest score
+    screen.fill((94, 129, 162))
+    screen.blit(player_stand, player_s_rect)
+    screen.blit(intro_text1, intro_rect1)
+    # define highest score
+    if score > score_list[0]:
+      del score_list[0]
+      score_list.append(score)
+    # place the scores
+    score_message = test_font.render('Last:  ' + str(score), False, (111, 196, 169))
+    high_score = test_font.render('High:  ' + str(score_list[0]), False, (111, 196, 169))
+    score_rect = score_message.get_rect(center = (400, 330))
+    high_score_rect = score_message.get_rect(center = (400, 370))
+    if score == 0:
+      screen.blit(intro_text2, intro_rect2)
+    else:
+      screen.blit(score_message, score_rect)
+      screen.blit(high_score, high_score_rect)
 
-  # update everything
+# update everything
   pygame.display.update()
   # create FPS ceiling
   clock.tick(60)
