@@ -9,6 +9,7 @@ pygame.display.set_caption('First Python Game')
 clock = pygame.time.Clock()
 test_font = pygame.font.Font('Pixeltype.ttf', 50)
 
+# define the game_active variable
 game_active = False
 
 # Create the surfaces
@@ -35,3 +36,37 @@ intro_text1 = test_font.render('Pixel Run', False, (111, 196, 169))
 intro_rect1 = intro_text1.get_rect(center = (400, 50))
 intro_text2 = test_font.render('Press Space to Play', False, (111, 196, 169))
 intro_rect2 = intro_text2.get_rect(center = (400, 300))
+
+# define score-related things
+obstacle_timer = pygame.USEREVENT + 1
+score = 0
+
+while True:
+  for event in pygame.event.get():
+    if event.type() = pygame.QUIT:
+      # end the game
+      pygame.quit()  
+      exit()
+
+    if game_active:
+      # here, define what happens when a key is pressed
+
+  if game_active:
+    # here, place the surfaces and check whether the player hit an obstacle
+
+  else:
+    # this is the start game screen, store the last score and highest score
+
+  # update everything
+  pygame.display.update()
+  # create FPS ceiling
+  clock.tick(60)
+
+
+
+
+
+
+
+
+
