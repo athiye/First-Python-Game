@@ -24,3 +24,14 @@ snail_rect = snail.get_rect(midbottom = (800, 300))
 player = pygame.image.load('player_walk_1.png').convert_alpha()
 player_rect = player.get_rect(midbottom = (80,300))
 player_gravity=0
+
+player_stand = pygame.image.load('player_stand.png').convert_alpha()
+player_stand = pygame.transform.scale2x(player_stand)
+player_s_rect = player.get_rect(midbottom = (365,175))
+
+score_list = [0]
+
+intro_text1 = test_font.render('Pixel Run', False, (111, 196, 169))
+intro_rect1 = intro_text1.get_rect(center = (400, 50))
+intro_text2 = test_font.render('Press Space to Play', False, (111, 196, 169))
+intro_rect2 = intro_text2.get_rect(center = (400, 300))
