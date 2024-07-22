@@ -1,15 +1,28 @@
 import pygame
+from sys import exit
 
-# start module
+def display_score(last_time):
+    current_time = pygame.time.get_ticks()
+    current_time -= last_time
+    current_time = int(current_time/1000)
+    score_surface = test_font.render(str(current_time), False, 'Black')
+    score_rect = score_surface.get_rect(center = (400, 50))
+    screen.blit(score_surface, score_rect)
+
+    return current_time
+    
+
+
+# Start the module
 pygame.init()
+# Create the display
 screen = pygame.display.set_mode((800, 400))
+# Creating the display name on the window
 pygame.display.set_caption('First Python Game')
-# set FPS ceiling
-
+# Set the FPS ceiling
 clock = pygame.time.Clock()
 test_font = pygame.font.Font('Pixeltype.ttf', 50)
 
-# define the game_active variable
 game_active = False
 
 # Create the surfaces
@@ -26,6 +39,7 @@ player = pygame.image.load('player_walk_1.png').convert_alpha()
 player_rect = player.get_rect(midbottom = (80,300))
 player_gravity=0
 
+# Intro screen
 player_stand = pygame.image.load('player_stand.png').convert_alpha()
 player_stand = pygame.transform.scale2x(player_stand)
 player_s_rect = player.get_rect(midbottom = (365,175))
@@ -37,69 +51,85 @@ intro_rect1 = intro_text1.get_rect(center = (400, 50))
 intro_text2 = test_font.render('Press Space to Play', False, (111, 196, 169))
 intro_rect2 = intro_text2.get_rect(center = (400, 300))
 
-# define score-related things
+
 obstacle_timer = pygame.USEREVENT + 1
+
+
+
 score = 0
 
 while True:
-  for event in pygame.event.get():
-    if event.type() = pygame.QUIT:
-      # end the game
-      pygame.quit()  
-      exit()
+    # Check if the player wants to end the game
+    for event in pygame.event.get():
+        if game_active:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    if player_rect.bottom >= 300:
+                        player_gravity=-20
 
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if player_rect.collidepoint(event.pos):
+                    if player_rect.bottom>=300:
+                        player_gravity=-20
+
+
+        else:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    snail_rect.x = 800
+                    game_active = True
+                    last_time = pygame.time.get_ticks()
+                    
+  
     if game_active:
-      # here, define what happens when a key is pressed
+        # Place the surfaces
+        screen.blit(sky_surface, (0,0))
+        screen.blit(ground_surface, (0, 300))
+        screen.blit(snail, snail_rect)
+        screen.blit(player, player_rect)
+        score = display_score(last_time)
+        snail_rect.x-=4.2
+        
+        if snail_rect.right<=-10:
+            snail_rect.left = 800
 
-  if game_active:
-    # here, place the surfaces and check whether the player hit an obstacle
-    screen.blit(sky_surface, (0,0))
-    screen.blit(ground_surface, (0, 300))
-    screen.blit(snail, snail_rect)
-    screen.blit(player, player_rect)
-    score = display_score(last_time)
-    # move the obstacle
-    snail_rect.x -= 4
-    if snail_rect.right <= -10:
-      snail_rect.left = 800
-    # change player gravity
-    player_gravity+=1
-    player_rect.y+=player_gravity
-    if player_rect.bottom > 300:
-        player_rect.bottom = 300
-    # if player hits obstacle
-    if snail_rect.colliderect(player_rect):
-      game_active = False
-  else:
-    # this is the start game screen, store the last score and highest score
-    screen.fill((94, 129, 162))
-    screen.blit(player_stand, player_s_rect)
-    screen.blit(intro_text1, intro_rect1)
-    # define highest score
-    if score > score_list[0]:
-      del score_list[0]
-      score_list.append(score)
-    # place the scores
-    score_message = test_font.render('Last:  ' + str(score), False, (111, 196, 169))
-    high_score = test_font.render('High:  ' + str(score_list[0]), False, (111, 196, 169))
-    score_rect = score_message.get_rect(center = (400, 330))
-    high_score_rect = score_message.get_rect(center = (400, 370))
-    if score == 0:
-      screen.blit(intro_text2, intro_rect2)
+        player_gravity+=1
+        player_rect.y+=player_gravity
+
+        if player_rect.bottom > 300:
+            player_rect.bottom = 300
+
+
+        if snail_rect.colliderect(player_rect):
+            game_active=False
+
+        display_score(last_time)
     else:
-      screen.blit(score_message, score_rect)
-      screen.blit(high_score, high_score_rect)
+        screen.fill((94, 129, 162))
+        screen.blit(player_stand, player_s_rect)
+        screen.blit(intro_text1, intro_rect1)
+        
+        if score > score_list[0]:
+            del score_list[0]
+            score_list.append(score)
+        score_message = test_font.render('Last:  ' + str(score), False, (111, 196, 169))
+        high_score = test_font.render('High:  ' + str(score_list[0]), False, (111, 196, 169))
+        score_rect = score_message.get_rect(center = (400, 330))
+        high_score_rect = score_message.get_rect(center = (400, 370))
+        if score == 0:
+            screen.blit(intro_text2, intro_rect2)
 
-# update everything
-  pygame.display.update()
-  # create FPS ceiling
-  clock.tick(60)
+        else:
+            screen.blit(score_message, score_rect)
+            screen.blit(high_score, high_score_rect)
+    
 
-
-
-
-
-
-
-
-
+    
+        
+        
+        
+    # update everything
+    pygame.display.update()
+    # Create the FPS ceiling
+    clock.tick(60)
+    
